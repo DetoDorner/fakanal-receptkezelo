@@ -1,5 +1,9 @@
 # FakanalReceptkezelo
 
+Ez a projekt a Webfejlesztési keretrendszerek tantárgy keretében készült. Választott téma: receptkezelő alkalmazás.
+**A választott projekt neve: Fakanál**.
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
 
 ## Development server
