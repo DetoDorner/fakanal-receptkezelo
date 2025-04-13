@@ -1,0 +1,93 @@
+.gradient-toolbar {
+  background: linear-gradient(135deg, #f9f8f7, #fdd9a3);
+  color: rgb(0, 0, 0);
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.recipe-form {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    padding: 0.8rem 3rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #ffc107;
+    color: #fff;
+    transform: scale(1.05);
+  }
+}
+
+.recipe-card {
+  max-width: 600px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #fff8e1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .mat-select {
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .gradient-toolbar {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+  }
+
+  .recipe-form {
+    padding: 0 1rem;
+  }
+
+  .button-wrapper {
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.desszert-card {
+  border-left: 5px solid #ff80ab;
+}
+.leves-card {
+  border-left: 5px solid #4fc3f7;
+}
+.foetel-card {
+  border-left: 5px solid #aed581;
+}
+.snack-card {
+  border-left: 5px solid #ffcc80;
+}
+.egyeb-card {
+  border-left: 5px solid #b39ddb;
+}

@@ -1,0 +1,60 @@
+<mat-toolbar color="primary" class="gradient-toolbar">
+  <span class="logo">Új recept hozzáadása</span>
+</mat-toolbar>
+
+<div class="form-wrapper">
+  <form (ngSubmit)="onSubmit()" class="recipe-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Név</mat-label>
+      <input matInput [(ngModel)]="name" name="name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Kategória</mat-label>
+      <mat-select [(ngModel)]="category" name="category" required>
+        <mat-option value="Desszert">Desszert</mat-option>
+        <mat-option value="Leves">Leves</mat-option>
+        <mat-option value="Főétel">Főétel</mat-option>
+        <mat-option value="Snack">Snack</mat-option>
+        <mat-option value="Egyéb">Egyéb</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Hozzávalók (vesszővel)</mat-label>
+      <input matInput [(ngModel)]="ingredients" name="ingredients" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Elkészítés</mat-label>
+      <textarea matInput rows="5" [(ngModel)]="instructions" name="instructions" required></textarea>
+    </mat-form-field>
+
+    <div class="button-wrapper">
+      <button mat-raised-button color="accent" type="submit">Mentés</button>
+    </div>
+  </form>
+</div>
+
+<mat-card 
+  *ngFor="let recipe of addedRecipes" 
+  class="recipe-card mat-elevation-z2"
+  [ngClass]="{
+    'desszert-card': recipe.category === 'Desszert',
+    'leves-card': recipe.category === 'Leves',
+    'foetel-card': recipe.category === 'Főétel',
+    'snack-card': recipe.category === 'Snack',
+    'egyeb-card': recipe.category === 'Egyéb'
+  }"
+>
+  <mat-card-header>
+    <mat-card-title>{{ recipe.name }}</mat-card-title>
+    <mat-card-subtitle>{{ recipe.category }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Hozzávalók:</strong> {{ recipe.ingredients.join(', ') }}</p>
+    <p><strong>Elkészítés:</strong> {{ recipe.instructions }}</p>
+  </mat-card-content>
+</mat-card>
+
+

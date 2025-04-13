@@ -1,0 +1,64 @@
+<mat-toolbar color="primary" class="gradient-toolbar">
+  <span class="logo">Recept szűrő</span>
+</mat-toolbar>
+
+<div class="form-wrapper">
+  <form class="recipe-form" (ngSubmit)="filter()">
+    <div class="row with-checkbox">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Recept neve</mat-label>
+        <input matInput [(ngModel)]="searchName" name="searchName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Kategória</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" name="selectedCategory">
+          <mat-option value="">Mind</mat-option>
+          <mat-option value="Desszert">Desszert</mat-option>
+          <mat-option value="Leves">Leves</mat-option>
+          <mat-option value="Főétel">Főétel</mat-option>
+          <mat-option value="Snack">Snack</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="onlyEasy" name="onlyEasy" class="checkbox-tight">
+        Csak egyszerű receptek
+      </mat-checkbox>
+    </div>
+
+    <div class="button-wrapper">
+      <button mat-raised-button color="accent" type="submit">Szűrés</button>
+    </div>
+  </form>
+</div>
+
+<div class="container">
+  <ng-container *ngIf="filteredRecipes.length > 0; else noResults">
+    <mat-card
+      *ngFor="let recipe of filteredRecipes"
+      class="recipe-card mat-elevation-z2"
+      [ngClass]="{
+        'desszert-card': recipe.category === 'Desszert',
+        'leves-card': recipe.category === 'Leves',
+        'foetel-card': recipe.category === 'Főétel',
+        'snack-card': recipe.category === 'Snack'
+      }"
+      [ngStyle]="{
+        'background-color': recipe.instructions.length > 100 ? '#fff8e1' : 'white'
+      }"
+    >
+      <mat-card-header>
+        <mat-card-title>{{ recipe.name }}</mat-card-title>
+        <mat-card-subtitle>{{ recipe.category }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Hozzávalók:</strong> {{ recipe.ingredients.join(', ') }}</p>
+        <p><strong>Elkészítés:</strong> {{ recipe.instructions }}</p>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+
+  <ng-template #noResults>
+    <p style="text-align: center; margin-top: 2rem;">Nincs találat a megadott feltételekre.</p>
+  </ng-template>
+</div>
