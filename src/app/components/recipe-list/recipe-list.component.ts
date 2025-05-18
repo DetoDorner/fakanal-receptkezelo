@@ -6,7 +6,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RecipeFilterPipe } from '../../pipes/recipe-filter.pipe';
+import { HighlightPipe } from '../../pipes/highlight.pipe';
 import { RouterModule } from '@angular/router';
+import { RecipeService } from '../../services/recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -18,6 +20,7 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     RecipeFilterPipe,
+    HighlightPipe,
     RouterModule
   ],
   templateUrl: './recipe-list.component.html',
@@ -26,54 +29,45 @@ import { RouterModule } from '@angular/router';
 export class RecipeListComponent {
   @Input() recipes: Recipe[] = [];
   @Input() filter: any = {};
+  @Input() title: string = 'Receptek';
+  @Input() highlightCategory: string = '';
 
   @Output() recipeSelected = new EventEmitter<Recipe>();
+  @Output() deleteRequested = new EventEmitter<number>();
 
-  get displayedRecipes(): Recipe[] {
-    if (this.recipes && this.recipes.length > 0) {
-      return this.recipes;
-    }
+  favorites: number[] = [];
 
-    return [
-      {
-        id: 1,
-        name: 'Palacsinta',
-        category: 'Desszert',
-        ingredients: ['liszt', 'tojás', 'tej'],
-        instructions: 'Keverd össze az alapanyagokat, majd forró serpenyőben süsd ki mindkét oldalát.'
-      },
-      {
-        id: 2,
-        name: 'Lencseleves',
-        category: 'Leves',
-        ingredients: ['lencse', 'répa', 'hagyma'],
-        instructions: 'Áztasd be a lencsét, majd főzd meg a zöldségekkel és fűszerekkel.'
-      },
-      {
-        id: 3,
-        name: 'Csirkepaprikás',
-        category: 'Főétel',
-        ingredients: ['csirke', 'paprika', 'tejföl'],
-        instructions: 'Pirítsd meg a csirkét, adj hozzá paprikát, főzd meg, végül keverd bele a tejfölt.'
-      },
-      {
-        id: 4,
-        name: 'Almás pite',
-        category: 'Desszert',
-        ingredients: ['alma', 'liszt', 'vaj', 'cukor', 'fahéj'],
-        instructions: 'Keverd össze a hozzávalókat, tedd a tésztát formába, süsd aranybarnára.'
-      },
-      {
-        id: 5,
-        name: 'Zöldségleves',
-        category: 'Leves',
-        ingredients: ['répa', 'karalábé', 'zeller', 'zöldborsó'],
-        instructions: 'Vágd fel a zöldségeket, főzd meg vízben sóval, majd tálald melegen.'
-      }
-    ];
-  }
+  constructor(private recipeService: RecipeService) {}
 
   selectRecipe(recipe: Recipe) {
     this.recipeSelected.emit(recipe);
+  }
+
+  editRecipe(recipe: Recipe): void {
+    if (recipe.name.includes('(szerkesztett)')) {
+      return;
+    }
+
+    const updated: Recipe = {
+      ...recipe,
+      name: recipe.name + ' (szerkesztett)'
+    };
+
+    this.recipeService.updateRecipe(updated).subscribe(newList => {
+      this.recipes = newList;
+    });
+  }
+
+  toggleFavorite(recipe: Recipe): void {
+    const index = this.favorites.indexOf(recipe.id);
+    if (index === -1) {
+      this.favorites.push(recipe.id);
+    } else {
+      this.favorites.splice(index, 1);
+    }
+  }
+
+  isFavorite(recipe: Recipe): boolean {
+    return this.favorites.includes(recipe.id);
   }
 }

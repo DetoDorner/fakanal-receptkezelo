@@ -35,26 +35,3 @@
     </div>
   </form>
 </div>
-
-<mat-card 
-  *ngFor="let recipe of addedRecipes" 
-  class="recipe-card mat-elevation-z2"
-  [ngClass]="{
-    'desszert-card': recipe.category === 'Desszert',
-    'leves-card': recipe.category === 'Leves',
-    'foetel-card': recipe.category === 'Főétel',
-    'snack-card': recipe.category === 'Snack',
-    'egyeb-card': recipe.category === 'Egyéb'
-  }"
->
-  <mat-card-header>
-    <mat-card-title>{{ recipe.name }}</mat-card-title>
-    <mat-card-subtitle>{{ recipe.category }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p><strong>Hozzávalók:</strong> {{ recipe.ingredients.join(', ') }}</p>
-    <p><strong>Elkészítés:</strong> {{ recipe.instructions }}</p>
-  </mat-card-content>
-</mat-card>
-
-
